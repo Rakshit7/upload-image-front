@@ -7,6 +7,10 @@ const UploadImg = () => {
   const [loading, setLoading] = useState(false);
   const [imgUri, setImgUri] = useState([]);
   const [dataUrl, setDataUrl] = useState("");
+  const [cameraToggle, setCameraToggle] = useState(false);
+  const [videoConstraints, setVideoConstraints] = useState({
+    facingMode: "user",
+  });
   const canvasCapture = document.getElementById("displayImage");
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -95,6 +99,20 @@ const UploadImg = () => {
   };
 
   useEffect(() => {
+    if (cameraToggle) {
+      const videoConstraints = {
+        facingMode: "environment",
+      };
+      setVideoConstraints(videoConstraints);
+    } else {
+      const videoConstraints = {
+        facingMode: "user",
+      };
+      setVideoConstraints(videoConstraints);
+    }
+  }, [cameraToggle]);
+
+  useEffect(() => {
     //   const constraints = {
     //     video: {
     //       width: 1280,
@@ -144,8 +162,24 @@ const UploadImg = () => {
           <span style={{ color: "red" }}>supports .jpg, .png, .jpeg</span>)
         </h3>
         <div style={{ marginBottom: "10px" }}>
-          <Webcam ref={camRef} />
+          <Webcam
+            audio={false}
+            ref={camRef}
+            // style={{ width: "100%", height: "auto" }}
+            videoConstraints={videoConstraints}
+          />
         </div>
+        <button
+          style={{
+            padding: "5px",
+            backgroundColor: "#0096FF",
+            color: "white",
+            borderRadius: "10%",
+          }}
+          onClick={() => setCameraToggle((prevState) => !prevState)}
+        >
+          Toggle Camera
+        </button>
         {/*<div style={{ marginBottom: "10px" }}>
           <input
             type="file"
