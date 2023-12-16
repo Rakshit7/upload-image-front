@@ -3,23 +3,13 @@ import ImgCard from "./ImgCard";
 import Webcam from "react-webcam";
 
 const UploadImg = () => {
-  const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [imgUri, setImgUri] = useState([]);
-  const [dataUrl, setDataUrl] = useState("");
   const [cameraToggle, setCameraToggle] = useState(false);
   const [videoConstraints, setVideoConstraints] = useState({
     facingMode: "user",
   });
-  const canvasCapture = document.getElementById("displayImage");
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   const camRef = useRef(null);
-  const handleChange = (e) => {
-    if (e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-    }
-  };
   const formObject = (l, i) => {
     const obj = [];
     i?.forEach((x) => {
